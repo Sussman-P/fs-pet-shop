@@ -1,3 +1,4 @@
+
 {
   "name": "fs-pet-store",
   "version": "0.1.0",
@@ -10,6 +11,7 @@
     "type": "git",
     "url": "git+https://github.com/gSchool/fs-pet-shop.git"
   },
+  "type": "module",
   "keywords": [
     "pet",
     "store",
