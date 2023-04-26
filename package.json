@@ -5,7 +5,7 @@
   "description": "A small server app to demonstrate CRUD over an HTTP API",
   "main": "restfulExpressServer.js",
   "scripts": {
-    "start": "nodemon"
+    "start": "nodemon httpServer.js"
   },
   "repository": {
     "type": "git",
