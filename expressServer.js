@@ -16,7 +16,6 @@ server.get("/pets", (req, res) => {
 			return;
 		}
 		const pets = JSON.parse(string);
-		// res.set("Content-Type", "application/json");
 		res.send(pets);
 	});
 });
@@ -24,6 +23,12 @@ server.get("/pets", (req, res) => {
 server.get("/pets/:petIndex", (req, res) => {
 	const petsInt = Number(req.params.petIndex);
 	fs.readFile("pets.json", (error, string) => {
+		if (error) {
+			console.error(error);
+			res.status(500);
+			return;
+		}
+
 		const pets = JSON.parse(string);
 
 		if (pets[petsInt] === undefined) {
@@ -33,6 +38,44 @@ server.get("/pets/:petIndex", (req, res) => {
 		}
 
 		res.send(pets[petsInt]);
+	});
+});
+
+server.use(express.json());
+
+server.post("/pets", (req, res, next) => {
+	const newPets = req.body;
+	console.log("Got body:", req.body);
+	fs.readFile("pets.json", (error, string) => {
+		if (error) {
+			console.error(error);
+			res.status(500);
+			return;
+		}
+
+		let pets = JSON.parse(string);
+
+		if (
+			typeof newPets.age === "number" &&
+			typeof newPets.name === "string" &&
+			typeof newPets.kind === "string"
+		) {
+			pets.push(newPets);
+
+			fs.writeFile("pets.json", JSON.stringify(pets), (error) => {
+				if (error) {
+					console.error(error);
+					res.status(500);
+					return;
+				}
+				res.set("Content-Type", "application/json");
+				res.send(JSON.stringify(newPets));
+			});
+		} else {
+			console.log("Double check data types!");
+			res.sendStatus(500);
+			return;
+		}
 	});
 });
 
