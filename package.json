@@ -1,11 +1,10 @@
-
 {
   "name": "fs-pet-store",
   "version": "0.1.0",
   "description": "A small server app to demonstrate CRUD over an HTTP API",
   "main": "restfulExpressServer.js",
   "scripts": {
-    "start": "nodemon httpServer.js"
+    "start": "nodemon expressServer.js"
   },
   "repository": {
     "type": "git",
@@ -25,6 +24,7 @@
   },
   "homepage": "https://github.com/gSchool/fs-pet-shop#readme",
   "dependencies": {
+    "express": "^4.18.2",
     "nodemon": "^1.9.1"
   }
 }
