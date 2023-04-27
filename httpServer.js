@@ -15,8 +15,7 @@ http
 				}
 
 				res.setHeader("Content-Type", "application/json");
-				res.write(string);
-				res.end();
+				res.end(string);
 			});
 		} else if (req.method === "GET" && petRegExp.test(req.url)) {
 			//get pet index
@@ -42,6 +41,26 @@ http
 				}
 
 				res.end(petsJSON);
+			});
+		} else if (req.method === "POST" && req.url === "/pets") {
+			let body = "";
+			req.on("data", (chunk) => {
+				body += chunk;
+			});
+			req.on("end", () => {
+				fs.readFile("pets.json", "utf-8", (error, string) => {
+					if (error) {
+						req.statusCode = 500;
+						req.end();
+					}
+					let pets = JSON.parse(string);
+					const newPets = JSON.parse(body);
+					pets.push(newPets);
+
+					fs.writeFile("pets.json", JSON.stringify(pets), (error) => {
+						res.end(JSON.stringify(newPets));
+					});
+				});
 			});
 		} else {
 			res.statusCode = 404;
