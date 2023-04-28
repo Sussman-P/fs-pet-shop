@@ -31,13 +31,15 @@ server.get("/pets/:petIndex", (req, res) => {
 
 		const pets = JSON.parse(string);
 
-		if (pets[petsInt] === undefined) {
+		if (Number.isNaN(petsInt)) {
+			res.sendStatus(422);
+		} else if (pets[petsInt] === undefined) {
 			res.set("Content-Type", "text/plain");
 			res.status(404);
 			res.send("Not Found!");
+		} else {
+			res.send(pets[petsInt]);
 		}
-
-		res.send(pets[petsInt]);
 	});
 });
 
@@ -78,6 +80,24 @@ server.post("/pets", (req, res, next) => {
 		}
 	});
 });
+
+// server.delete("/pets", (req, res) => {
+// 	fs.readFile("pets.json", (error, string) => {
+// 		const pets = JSON.parse(string);
+
+// 		// fs.writeFile("pets.json", JSON.stringify(pets), (error) => {
+// 		// 	if (error) {
+// 		// 		console.error(error);
+// 		// 		res.status(500);
+// 		// 		return;
+// 		// 	}
+// 		// 	res.set("Content-Type", "application/json");
+// 		// 	delete pets[pets.lenght - 1];
+// 		// 	console.log(pets[pets.lenght - 1]);
+// 		// 	res.send(JSON.stringify(newPets));
+// 		// });
+// 	});
+// });
 
 server.listen(port, () => {
 	console.log(`Server listening on port ${port}`);
