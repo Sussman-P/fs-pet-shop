@@ -74,10 +74,10 @@ server.patch("/pets/:id", (req, res) => {
 	// Get pet index, and parse it as Number,
 	const id = Number(req.params.id);
 	// Get pet fields from request body,
-	const { name, age, kind } = req.body;
+	const { name, kind } = req.body;
 	// Validate given fields,
-	const ageNum = Number(age);
-	if ((!age && !name && !kind) || (age && Number.isNaN(ageNum)) || Number.isNaN(id)) {
+	const age = Number(req.body.age);
+	if ((!age && !name && !kind) || (age && Number.isNaN(age)) || Number.isNaN(id)) {
 		res.sendStatus(422);
 		return;
 	}
